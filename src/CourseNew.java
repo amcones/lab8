@@ -1,35 +1,59 @@
 public class CourseNew {
     private Student[] student=new Student[2];
     private String cname;
+    private int num=0;
     public CourseNew(String cname){
         this.cname=cname;
     }
     public void addStudent(Student stu)
     {
-
+        if(contains(stu))return;
+        if(num+1==student.length)increaseSize();
+        student[num++]=stu;
     }
     private void increaseSize()
     {
-
+        Student[] temp=new Student[student.length*2];
+        System.arraycopy(student,0,temp,0,num);
+        student=temp;
     }
     public Student[] getStudents()
     {
-
+        return student;
     }
     public int getNumberOfStudents()
     {
-
+        return num;
     }
-    public void dropStudent(Student stu){
-
+    public boolean contains(Student s)
+    {
+        for (Student i:student) {
+            if(i==null)break;
+            if(i.getName().equals(s.getName()))return true;
+        }
+        return false;
+    }
+    public int containsId(Student s)
+    {
+        for(int i=0;i<student.length;i++){
+            if(student[i].getName().equals(s.getName()))return i;
+        }
+        return -1;
+    }
+    public void dropStudent(Student s){
+        for(int i=containsId(s);i<num-1;i++){
+            student[i]=student[i+1];
+        }
+        num--;
     }
     public void clear()
     {
-
+        student=new Student[2];
+        num=0;
     }
 }
 class Student{
-    String name;
+    private final String name;
     public Student(String sname){
         this.name=sname;
     }
